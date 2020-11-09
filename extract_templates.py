@@ -1,10 +1,6 @@
 from nltk import word_tokenize, pos_tag
 import json
 
-text = open('data/Book-of-Nonsense-Lear.txt', 'r', encoding='utf-8').readlines()
-start_index = 74
-len_lines = 5
-
 
 def extract_limericks_from_text(text):
     limericks = []
@@ -21,12 +17,15 @@ def extract_limericks_from_text(text):
     return limericks
 
 
-def tag_limericks(limericks):
+def tag_limericks(limericks, tagset=None):
     tagged_limericks = []
     for limerick in limericks:
         tagged_lines = []
         for line in limerick:
-            tags = pos_tag(line.split())
+            if tagset is None:
+                tags = pos_tag(line.strip().split())
+            else:
+                tags = pos_tag(line.strip().split(), tagset=tagset)
             tagged_lines.append(tags)
         tagged_limericks.append(tagged_lines)
     return tagged_limericks
@@ -40,14 +39,18 @@ def assemble_templates(tagged_limericks):
                 templates[i] = []
             tags = [tok[1] for tok in line]
             tags_str = " | ".join(tags)
-            if tags_str not in tagged[i]:
+            if len(tags_str) > 0 and tags_str not in templates[i]:
                 templates[i].append(tags_str)
     return templates
 
+text = open('data/Book-of-Nonsense-Lear.txt', 'r', encoding='utf-8').readlines()
+start_index = 74
+len_lines = 5
+tagset = 'universal'
 
 limericks_text = extract_limericks_from_text(text)
-tagged_limericks = tag_limericks(limericks_text)
+tagged_limericks = tag_limericks(limericks_text, tagset=tagset)
 templates = assemble_templates(tagged_limericks)
 # write templates to file
-json_file = open("templates.json", 'w')
+json_file = open("templates_" + tagset + ".json", 'w')
 json.dump(templates, json_file)
