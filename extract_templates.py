@@ -43,6 +43,7 @@ def assemble_templates(tagged_limericks):
                 templates[i].append(tags_str)
     return templates
 
+
 text = open('data/Book-of-Nonsense-Lear.txt', 'r', encoding='utf-8').readlines()
 start_index = 74
 len_lines = 5
@@ -50,7 +51,7 @@ tagset = 'universal'
 
 limericks_text = extract_limericks_from_text(text)
 tagged_limericks = tag_limericks(limericks_text, tagset=tagset)
-templates = assemble_templates(tagged_limericks)
+#templates = assemble_templates(tagged_limericks)
 # write templates to file
 json_file = open("templates_" + tagset + ".json", 'w')
-json.dump(templates, json_file)
+json.dump(tagged_limericks, json_file)
