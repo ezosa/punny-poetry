@@ -10,5 +10,5 @@ Dependencies:
 
 Starting point:
 
-python main.py 
-python main.py --theme Amsterdam
+- python main.py 
+- python main.py --theme Amsterdam
