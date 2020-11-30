@@ -8,7 +8,7 @@ Dependencies:
 - spacy
 - editdistance
 
-Starting points:
+Starting point:
 
 python main.py 
-
+python main.py --theme Amsterdam
