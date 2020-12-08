@@ -41,7 +41,9 @@ def get_entities_from_text(wiki_text):
 # pick random limerick template
 def pick_random_template():
     templates = json.load(open("templates/templates_universal.json", "r"))
-    random_num = random.choice(range(len(templates)))
+    num_templates = 110
+    random_num = random.choice(range(num_templates))
+    print("Selected template:", random_num)
     template = templates[str(random_num)]
     invalid_temp = True
     while invalid_temp is True:
@@ -49,7 +51,9 @@ def pick_random_template():
         if 0 not in line_lengths:
             invalid_temp = False
         else:
-            random_num = random.choice(range(len(templates)))
+            print("Template is invalid. Select again.")
+            random_num = random.choice(range(num_templates))
+            print("Selected template:", random_num)
             template = templates[str(random_num)]
     return template
 
@@ -101,7 +105,7 @@ def pronounce_dist(word1, word2):
 
 
 def clean_word(word):
-    print("clean word:", word)
+    #print("clean word:", word)
     # remove punctuations and digits
     word = ''.join([c if c not in exclude else ' ' for c in word ])
     word = ''.join([c for c in word if not c.isdigit()])
@@ -109,7 +113,7 @@ def clean_word(word):
     tokens = word.split()
     if len(tokens) > 0:
         word = tokens[-1]
-    print("new word:", word)
+    #print("new word:", word)
     return word
 
 
