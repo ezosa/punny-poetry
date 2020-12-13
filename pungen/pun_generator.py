@@ -14,28 +14,19 @@ import random
 
 lemmatizer = WordNetLemmatizer()  # used to lemmatize words.
 
-
-def food_words(file_path='./food_words.pkl'):
-    if os.path.isfile(file_path):  # load stored results
-        with open(file_path, 'rb') as f:
-            return pickle.load(f)
-
-    url = 'http://ngrams.ucd.ie/therex3/common-nouns/head.action?head=food&ref=apple&xml=true'
-    response = requests.get(url)
-    result = xmltodict.parse(response.content)
-    _root_content = result['HeadData']
-    result_dict = dict(map(lambda r: tuple([r['#text'].replace('_', ' ').strip(), int(r['@weight'])]), _root_content['Members']['Member']))
-
-    with open(file_path, 'wb') as f:  # store the results locally (as a cache)
-        pickle.dump(result_dict, f, pickle.HIGHEST_PROTOCOL)
-    return result_dict
-
+with open('foods.txt', 'r') as f:
+    food_pun_words = f.readlines()
+with open('world-cities.txt', 'r') as f:
+    cities_pun_words = f.readlines()
 
 arpabet = cmudict.dict()
 
 
 def pronounce(word):
-    return arpabet[word.lower()][0] if word.lower() in arpabet else None  # make sure the word is lowercased and
+    if word.lower() in arpabet:
+        return arpabet[word.lower()][0]
+    else:
+        return None  # make sure the word is lowercased and
     # exists in the dictionary
 
 
@@ -54,8 +45,11 @@ def process_text(text):
     return processed_sentences
 
 
-def make_punny(text, distance):
-    foods = food_words()
+def make_punny(text, distance, theme):
+    if theme == 'food':
+        all_pun_words = food_pun_words
+    elif theme == 'cities':
+        all_pun_words = cities_pun_words
     processed_text = process_text(text)
     pun_words = []
     pun_sentence = ""
@@ -63,10 +57,12 @@ def make_punny(text, distance):
 
     for index, sent in enumerate(processed_text):
         word = choose_random_word(sent)
+        pronounced_word = pronounce(word[0])
         # print(word)
-        for k, v in foods.items():
+        for k in all_pun_words:
+            k = k.replace('\n', '')
             pronounced_food = check_pronounce(k)
-            pronounced_word = pronounce(word[0])
+
             if pronounced_food and pronounced_word:
                 if editdistance.eval(pronounced_word, pronounced_food) < distance:
                     pun_words.append(k)
@@ -105,14 +101,14 @@ def choose_random_word(sent):
 
 def main():
     print("This script can make food puns like examples below (it might take few seconds):")
-    print(make_punny("Jurassic Park", 2))
-    print(make_punny("Jurassic Park", 3))
-    print(make_punny("Life of Pi", 2))
-    print(make_punny("Life of Pi", 3))
-    print(make_punny("gone with the wind", 2))
-    print(make_punny("gone with the wind", 3))
-    print(make_punny("The Lord of the Rings", 3))
-    print(make_punny("The Lord of the Rings", 4))
+    print(make_punny("Jurassic Park", 2, "food"))
+    print(make_punny("Jurassic Park", 3, "cities"))
+    print(make_punny("Life of Pi", 2, "food"))
+    print(make_punny("Life of Pi", 3, "cities"))
+    print(make_punny("Gone with the wind", 2, "food"))
+    print(make_punny("Gone with the wind", 3, "cities"))
+    print(make_punny("The Lord of the Rings", 3, "food"))
+    print(make_punny("The Lord of the Rings", 4, "cities"))
     line = ' '
     while line != '':
         line = input("try your line (empty line to exit): ")
