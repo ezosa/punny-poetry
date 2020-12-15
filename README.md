@@ -3,12 +3,12 @@ Computational Creativity course (Fall 2020) at the University of Helsinki
 
 Generate themed punny limericks!
 
-Dependencies:
+## Dependencies
 - wikipediaapi
 - spacy
 - editdistance
 
-Starting point:
+## Starting point
 
 To generate a limerick about Amsterdam:
 - python main.py --theme Amsterdam 
