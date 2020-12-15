@@ -43,7 +43,7 @@ def pick_random_template():
     templates = json.load(open("templates/templates_universal.json", "r"))
     num_templates = 110
     random_num = random.choice(range(num_templates))
-    print("Selected template:", random_num)
+    # print("Selected template:", random_num)
     template = templates[str(random_num)]
     invalid_temp = True
     while invalid_temp is True:
@@ -51,9 +51,9 @@ def pick_random_template():
         if 0 not in line_lengths:
             invalid_temp = False
         else:
-            print("Template is invalid. Select again.")
+            # print("Template is invalid. Select again.")
             random_num = random.choice(range(num_templates))
-            print("Selected template:", random_num)
+            # print("Selected template:", random_num)
             template = templates[str(random_num)]
     return template
 
@@ -138,11 +138,11 @@ def fix_rhyme_scheme(new_limerick, wiki_text):
     word1 = clean_word(word1)
     word2 = clean_word(word2)
     pos2 = new_limerick[1][-1][1]
-    print("Word1:", word1)
-    print("Word2:", word2)
-    print("POS2:", pos2)
+    # print("Word1:", word1)
+    # print("Word2:", word2)
+    # print("POS2:", pos2)
     word2 = generate_rhymes(word1, word2, pos2, text)
-    print("New Word2:", word2)
+    # print("New Word2:", word2)
     new_limerick[1][-1][0] = word2
     # fix rhyme scheme for lines 3 and 4
     word3 = new_limerick[2][-1][0]
@@ -150,11 +150,11 @@ def fix_rhyme_scheme(new_limerick, wiki_text):
     word3 = clean_word(word3)
     word4 = clean_word(word4)
     pos4 = new_limerick[3][-1][1]
-    print("Word3:", word3)
-    print("Word4:", word4)
-    print("POS4:", pos2)
+    # print("Word3:", word3)
+    # print("Word4:", word4)
+    # print("POS4:", pos2)
     word4 = generate_rhymes(word3, word4, pos4, text)
-    print("New Word4:", word4)
+    # print("New Word4:", word4)
     new_limerick[3][-1][0] = word4
     # fix rhyme scheme for line 5
     new_limerick[4][-1][0] = word1
