@@ -7,6 +7,9 @@ Generate themed punny limericks!
 - Python 3.6 or higher
 
 ### Required packages
+```
+pip install Wikipedia-API
+```
 - wikipediaapi
 - spacy
 - editdistance
