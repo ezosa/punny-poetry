@@ -16,6 +16,10 @@ You also need to download the English model for spaCy:
 ```
 python -m spacy download en
 ```
+And download NLTK's CMUDict:
+```
+python -m nltk.downloader cmudict
+```
 
 ## Starting point
 
