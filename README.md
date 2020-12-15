@@ -3,13 +3,14 @@ Generate themed punny limericks!
 
 ## System Requirements
 
-- Python 3.6 or higher
+- Python 3.7 or higher
 
 ### Dependencies
 ```
 pip install Wikipedia-API
 pip install spacy
 pip install editdistance
+pip install nltk
 ```
 You also need to download the English model for spaCy and NLTK's CMUDict:
 ```
