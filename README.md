@@ -5,7 +5,7 @@ Generate themed punny limericks!
 
 - Python 3.6 or higher
 
-### Depenedencies
+### Dependencies
 ```
 pip install Wikipedia-API
 pip install spacy
