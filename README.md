@@ -9,8 +9,10 @@ Dependencies:
 - editdistance
 
 Starting point:
+
 To generate a limerick about Amsterdam:
 - python main.py --theme Amsterdam 
+
 You can try other themes too!
 - python main.py --theme Budapest
 - python main.py --theme Christmas
