@@ -9,11 +9,9 @@ Generate themed punny limericks!
 ### Required packages
 ```
 pip install Wikipedia-API
+pip install spacy
+pip install editdistance
 ```
-- wikipediaapi
-- spacy
-- editdistance
-
 
 ## Starting point
 
