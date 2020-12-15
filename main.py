@@ -23,7 +23,7 @@ new_limerick = new_limerick_from_template(template, persons, places)
 new_limerick2 = fix_rhyme_scheme(new_limerick, wiki_text)
 
 # print limerick
-print("Here's your new limerick:")
+print("*"*5, "Here's your new limerick!", "*"*5)
 for line in new_limerick2:
     line_str = " ".join([tok[0] for tok in line])
     print(line_str)
