@@ -12,6 +12,10 @@ pip install Wikipedia-API
 pip install spacy
 pip install editdistance
 ```
+You also need to download the English model for spaCy:
+```
+python -m spacy download en
+```
 
 ## Starting point
 
