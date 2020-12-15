@@ -1,0 +1,6 @@
+README.md
+setup.py
+punny_poetry.egg-info/PKG-INFO
+punny_poetry.egg-info/SOURCES.txt
+punny_poetry.egg-info/dependency_links.txt
+punny_poetry.egg-info/top_level.txt
