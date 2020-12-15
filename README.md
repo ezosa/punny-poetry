@@ -4,9 +4,13 @@ Computational Creativity course (Fall 2020) at the University of Helsinki
 Generate themed punny limericks!
 
 ## Dependencies
+- Python 3.6 or higher
+
+### Required packages
 - wikipediaapi
 - spacy
 - editdistance
+
 
 ## Starting point
 
