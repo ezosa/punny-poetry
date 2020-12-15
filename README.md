@@ -1,12 +1,11 @@
 # Punny Poetry
-Computational Creativity course (Fall 2020) at the University of Helsinki
-
 Generate themed punny limericks!
 
-## Dependencies
+## System Requirements
+
 - Python 3.6 or higher
 
-### Required packages
+### Depenedencies
 ```
 pip install Wikipedia-API
 pip install spacy
