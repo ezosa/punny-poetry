@@ -1,14 +1,8 @@
 # this script is originally from an assignment made for
 # the NLP2019 course held in the University of Helsinki
 
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.tag import pos_tag
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import cmudict
-import requests
-import xmltodict
-import pickle
-import os
 import editdistance
 import random
 
@@ -22,60 +16,27 @@ with open('world-cities.txt', 'r') as f:
 arpabet = cmudict.dict()
 
 
-def pronounce(word):
-    if word.lower() in arpabet:
-        return arpabet[word.lower()][0]
-    else:
-        return None  # make sure the word is lowercased and
-    # exists in the dictionary
-
-
-def process_text(text):
-    processed_sentences = []
-
-    sentences = sent_tokenize(text)
-    for sent in sentences:
-        temp_sent = []
-        sent = word_tokenize(sent)
-        sent = pos_tag(sent)
-        for word, pos in sent:
-            temp_sent.append((word, lemmatizer.lemmatize(word), pos))
-        processed_sentences.append(temp_sent)
-
-    return processed_sentences
-
-
-def make_punny(text, distance, theme):
-    if theme == 'food':
-        all_pun_words = food_pun_words
-    elif theme == 'cities':
+def make_punny(text, distance, theme='food'):
+    all_pun_words = food_pun_words
+    if theme == 'cities':
         all_pun_words = cities_pun_words
-    processed_text = process_text(text)
+
     pun_words = []
-    pun_sentence = ""
-    pun_sentences = []
 
-    for index, sent in enumerate(processed_text):
-        word = choose_random_word(sent)
-        pronounced_word = pronounce(word[0])
-        # print(word)
-        for k in all_pun_words:
-            k = k.replace('\n', '')
-            pronounced_food = check_pronounce(k)
+    for index, sent in enumerate(text):
+        word = choose_first_eligible_word(sent)
+        if word:
+            pronounced_word = pronounce(word[0])
+            for k in all_pun_words:
+                k = k.replace('\n', '')
+                pronounced_food = check_pronounce(k)
 
-            if pronounced_food and pronounced_word:
-                if editdistance.eval(pronounced_word, pronounced_food) < distance:
-                    pun_words.append(k)
-                    # print(pun_words)
-                    processed_text[index][word[1]] = random.choice(pun_words)
-        for w in sent:
-            if type(w) == tuple:
-                pun_sentence += w[0] + " "
-            else:
-                pun_sentence += w + " "
-        pun_sentences.append(pun_sentence)
-
-    return pun_sentences[0]
+                if pronounced_food:
+                    if editdistance.eval(pronounced_word, pronounced_food) < distance:
+                        pun_words.append(k)
+            if pun_words:
+                text[index][word[1]][0] = random.choice(pun_words)
+    return text
 
 
 def check_pronounce(word):
@@ -86,37 +47,25 @@ def check_pronounce(word):
         return []
 
 
-def choose_random_word(sent):
+def pronounce(word):
+    word = word.split()[-1]
+    if word.lower() in arpabet:
+        return arpabet[word.lower()][0]
+    else:
+        # make sure the word is lower-cased and exists in the dictionary
+        return None
+
+
+def choose_first_eligible_word(sent):
     eligible_words = []
-    index = 0
 
-    for word, lemma, pos in sent:
-        if pos in ('NN', 'NNS', 'NNP', 'NNPS', 'VBP', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ'):
-            eligible_words.append((word, index))
-        index += 1
+    for i, (word, pos) in enumerate(sent):
+        if pos in ('NOUN', 'ADJ'):
+            eligible_words.append((word, i))
 
-    # print(eligible_words)
-    return random.choice(eligible_words)
-
-
-def main():
-    print("This script can make food puns like examples below (it might take few seconds):")
-    print(make_punny("Jurassic Park", 2, "food"))
-    print(make_punny("Jurassic Park", 3, "cities"))
-    print(make_punny("Life of Pi", 2, "food"))
-    print(make_punny("Life of Pi", 3, "cities"))
-    print(make_punny("Gone with the wind", 2, "food"))
-    print(make_punny("Gone with the wind", 3, "cities"))
-    print(make_punny("The Lord of the Rings", 3, "food"))
-    print(make_punny("The Lord of the Rings", 4, "cities"))
-    line = ' '
-    while line != '':
-        line = input("try your line (empty line to exit): ")
-        if line != '':
-            print(make_punny(line,3))
-            print(make_punny(line,3))
-            print(make_punny(line,4))
-
-
-if __name__ == "__main__":
-    main()
+    n = len(eligible_words)
+    for i in range(n):
+        pronounced_word = pronounce(eligible_words[i][0])
+        if pronounced_word:
+            return eligible_words[i]
+    return None
