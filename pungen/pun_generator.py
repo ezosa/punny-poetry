@@ -12,6 +12,9 @@ with open('pungen/foods.txt', 'r') as f:
     food_pun_words = f.readlines()
 with open('pungen/world-cities.txt', 'r') as f:
     cities_pun_words = f.readlines()
+with open('pungen/adj.txt', 'r') as f:
+    adj_pun_words = f.readlines()
+    adj_pun_words = [w.strip() for w in adj_pun_words]
 
 arpabet = cmudict.dict()
 
@@ -27,13 +30,22 @@ def make_punny(text, distance, theme='food'):
         word = choose_first_eligible_word(sent)
         if word:
             pronounced_word = pronounce(word[0])
-            for k in all_pun_words:
-                k = k.replace('\n', '')
-                pronounced_food = check_pronounce(k)
+            if word[2] == 'NOUN':
+                for k in food_pun_words:
+                    k = k.replace('\n', '')
+                    pronounced_food = check_pronounce(k)
 
-                if pronounced_food:
-                    if editdistance.eval(pronounced_word, pronounced_food) < distance:
-                        pun_words.append(k)
+                    if pronounced_food:
+                        if editdistance.eval(pronounced_word, pronounced_food) < distance:
+                            pun_words.append(k)
+            else:
+                for k in adj_pun_words:
+                    k = k.replace('\n', '')
+                    pronounced_food = check_pronounce(k)
+
+                    if pronounced_food:
+                        if editdistance.eval(pronounced_word, pronounced_food) < distance:
+                            pun_words.append(k)
             if pun_words:
                 text[index][word[1]][0] = random.choice(pun_words)
     return text
@@ -60,8 +72,8 @@ def choose_first_eligible_word(sent):
     eligible_words = []
 
     for i, (word, pos) in enumerate(sent):
-        if pos in ('NOUN'):
-            eligible_words.append((word, i))
+        if pos in ('NOUN', 'ADJ'):
+            eligible_words.append((word, i, pos))
 
     n = len(eligible_words)
     for i in range(n):
