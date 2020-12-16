@@ -1,5 +1,5 @@
 # Punny Poetry
-Generate pun-filled limericks about anything!
+Generate food pun-filled limericks about anything!
 
 ## System Requirements
 
@@ -25,7 +25,7 @@ To generate a limerick about Amsterdam:
 python main.py --topic Amsterdam 
 ```
 
-You can try other themes too!
+You can try other topics too!
 ```
 python main.py --topic London
 python main.py --topic Christmas
