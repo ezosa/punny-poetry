@@ -7,7 +7,7 @@ parser.add_argument('--topic', type=str, default='Amsterdam', help='Topic of the
 args = parser.parse_args()
 topic = args.topic.lower()
 
-topic = 'London'
+# topic = 'London'
 pun_theme = 'food'
 
 print("="*10, "Welcome to our Punny Limerick Generator!", "="*10)
