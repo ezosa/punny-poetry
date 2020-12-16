@@ -32,6 +32,7 @@ print("*"*5, "Here's your new limerick!", "*"*5)
 for line in new_limerick3:
     line_str = " ".join([tok[0] for tok in line])
     print(line_str)
+print("*"*40)
 
 # count proportion of replaced words
 prop_words = count_replaced_words(template, new_limerick3)
