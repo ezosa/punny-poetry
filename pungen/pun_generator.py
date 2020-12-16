@@ -8,9 +8,9 @@ import random
 
 lemmatizer = WordNetLemmatizer()  # used to lemmatize words.
 
-with open('foods.txt', 'r') as f:
+with open('pungen/foods.txt', 'r') as f:
     food_pun_words = f.readlines()
-with open('world-cities.txt', 'r') as f:
+with open('pungen/world-cities.txt', 'r') as f:
     cities_pun_words = f.readlines()
 
 arpabet = cmudict.dict()
