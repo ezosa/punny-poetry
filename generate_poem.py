@@ -6,6 +6,7 @@ import spacy
 import editdistance
 from nltk.corpus import cmudict
 import string
+import numpy as np
 
 exclude = list(string.punctuation)
 arpabet = cmudict.dict()
@@ -174,4 +175,21 @@ def fix_rhyme_scheme(new_limerick, wiki_text):
     return new_limerick
 
 
+def count_replaced_words(limerick1, limerick2):
+    total_tokens = 0
+    replaced_tokens = 0
+    for l1, line1 in enumerate(limerick1):
+        if l1 < len(limerick2):
+            line2 = limerick2[l1]
+            for w1, word1 in enumerate(line1):
+                if w1 < len(line2):
+                    word2 = line2[w1]
+                    total_tokens += 1
+                    if word1 != word2:
+                        replaced_tokens += 1
+    prop = np.round(replaced_tokens/total_tokens, 3)
+    # print("Total tokens:", total_tokens)
+    # print("Replaced tokens:", replaced_tokens)
+    # print("Proportion:", prop)
+    return prop
 
