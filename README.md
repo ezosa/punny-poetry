@@ -1,5 +1,5 @@
 # Punny Poetry
-Generate themed punny limericks!
+Generate pun-filled limericks about anything!
 
 ## System Requirements
 
@@ -22,13 +22,13 @@ python -m nltk.downloader cmudict
 
 To generate a limerick about Amsterdam:
 ```
-python main.py --theme Amsterdam 
+python main.py --topic Amsterdam 
 ```
 
 You can try other themes too!
 ```
-python main.py --theme Budapest
-python main.py --theme Christmas
+python main.py --topic London
+python main.py --topic Christmas
 ```
 
 ## Resources
