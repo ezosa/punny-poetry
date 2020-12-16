@@ -60,7 +60,7 @@ def choose_first_eligible_word(sent):
     eligible_words = []
 
     for i, (word, pos) in enumerate(sent):
-        if pos in ('NOUN', 'ADJ'):
+        if pos in ('NOUN'):
             eligible_words.append((word, i))
 
     n = len(eligible_words)
