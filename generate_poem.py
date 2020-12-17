@@ -129,25 +129,23 @@ def generate_rhymes(word1, word2, pos2, text):
     dist = pronounce_dist(word1, word2)
     rhyme_dist = 2
     if dist >= rhyme_dist:
-        rhyme_found = False
         for token in text:
             if token.pos_ == pos2:
                 word2 = token.text
                 word2 = clean_word(word2)
                 dist = pronounce_dist(word1, word2)
                 if dist <= rhyme_dist:
-                    rhyme_found = True
                     break
-        if rhyme_found is False:
-            rhyme_dist = 4
-            for token in text:
-                if token.pos_ == pos2:
-                    word2 = token.text
-                    word2 = clean_word(word2)
-                    dist = pronounce_dist(word1, word2)
-                    if dist <= rhyme_dist:
-                        rhyme_found = True
-                        break
+        # if rhyme_found is False:
+        #     rhyme_dist = 4
+        #     for token in text:
+        #         if token.pos_ == pos2:
+        #             word2 = token.text
+        #             word2 = clean_word(word2)
+        #             dist = pronounce_dist(word1, word2)
+        #             if dist <= rhyme_dist:
+        #                 rhyme_found = True
+        #                 break
     return word2
 
 
