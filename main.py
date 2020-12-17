@@ -1,5 +1,5 @@
 import argparse
-from generate_poem import get_wiki_text, get_entities_from_text, pick_random_template, new_limerick_from_template, fix_rhyme_scheme, count_replaced_words
+from generate_poem import get_wiki_text, get_entities_from_text, pick_random_template, new_limerick_from_template, fix_rhyme_scheme, count_replaced_words, check_rhyme_scheme
 from pungen.pun_generator import make_punny
 
 parser = argparse.ArgumentParser(description='Limerick Generator')
@@ -37,3 +37,7 @@ print("*"*40)
 # count proportion of replaced words
 prop_words = count_replaced_words(template, new_limerick3)
 print("\nProportion of replaced tokens:", prop_words)
+
+# check rhyme scheme of final limerick
+rhyme_scheme = check_rhyme_scheme(new_limerick3)
+print("Rhyme scheme of limerick:", rhyme_scheme)

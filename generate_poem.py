@@ -98,7 +98,7 @@ def new_limerick_from_template(template, persons, places):
 
 # fix rhyme scheme
 def pronounce(word):
-    return arpabet[word.lower()][0] if word.lower() in arpabet else None  # make sure the word is lowercased and
+    return arpabet[word][0] if word in arpabet else None  # make sure the word is lowercased and
     # exists in the dictionary
 
 
@@ -122,12 +122,12 @@ def clean_word(word):
     if len(tokens) > 0:
         word = tokens[-1]
     #print("new word:", word)
+    word = word.lower()
     return word
 
 
-def generate_rhymes(word1, word2, pos2, text):
+def generate_rhymes(word1, word2, pos2, text, rhyme_dist=2):
     dist = pronounce_dist(word1, word2)
-    rhyme_dist = 2
     if dist >= rhyme_dist:
         for token in text:
             if token.pos_ == pos2:
@@ -197,4 +197,38 @@ def count_replaced_words(limerick1, limerick2):
     # print("Replaced tokens:", replaced_tokens)
     # print("Proportion:", prop)
     return prop
+
+
+def check_rhyme_scheme(limerick, rhyme_dist=2):
+    rhyme_scheme = ''
+    word1 = limerick[0][-1][0]
+    word1 = clean_word(word1)
+    word2 = limerick[1][-1][0]
+    word2 = clean_word(word2)
+    #print("Word1:", word1)
+    #print("Word2:", word2)
+    dist = pronounce_dist(word1, word2)
+    if dist <= rhyme_dist:
+        rhyme_scheme += 'AA'
+    else:
+        rhyme_scheme += 'A-'
+    word3 = limerick[2][-1][0]
+    word3 = clean_word(word3)
+    word4 = limerick[3][-1][0]
+    word4 = clean_word(word4)
+    dist = pronounce_dist(word3, word4)
+    if dist <= rhyme_dist:
+        rhyme_scheme += 'BB'
+    else:
+        rhyme_scheme += 'B-'
+    word5 = limerick[4][-1][0]
+    word5 = clean_word(word5)
+    #print("Word5:", word5)
+    dist = pronounce_dist(word5, word1)
+    #print("Dist 1-5:", dist)
+    if dist <= rhyme_dist:
+        rhyme_scheme += 'A'
+    else:
+        rhyme_scheme += '-'
+    return rhyme_scheme
 
