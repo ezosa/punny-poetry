@@ -65,24 +65,31 @@ def new_limerick_from_template(template, persons, places):
     for l, line in enumerate(template):
         new_line = []
         #line_pos = "|".join([tok[1] for tok in line])
-        for t, tok in enumerate(line):
-            pos = tok[1]
-            value = tok[0]
-            if pos in (['DET', 'VERB', 'ADP', 'PRON']):
-                new_line.append([value, pos])
-            else:
-                if pos == 'NOUN':
-                    # select a random entity from list
-                    prev_pos = line[t-1][1]
-                    if prev_pos == 'ADP':
-                        random_ent = random.choice(places)
-                    else:
-                        random_ent = random.choice(persons)
-                    if prev_pos != 'NOUN':
-                        if value[0].isupper() == True:
-                            new_line.append([random_ent, pos])
+        if l == 4:
+            new_line.append(line[0])
+            for t, tok in enumerate(new_limerick[0]):
+                if t > 0:
+                    new_line.append(tok)
+            #print(new_limerick[0])
+        else:
+            for t, tok in enumerate(line):
+                pos = tok[1]
+                value = tok[0]
+                if pos in (['DET', 'VERB', 'ADP', 'PRON']):
+                    new_line.append([value, pos])
+                else:
+                    if pos == 'NOUN':
+                        # select a random entity from list
+                        prev_pos = line[t-1][1]
+                        if prev_pos == 'ADP':
+                            random_ent = random.choice(places)
                         else:
-                            new_line.append([value, pos])
+                            random_ent = random.choice(persons)
+                        if prev_pos != 'NOUN':
+                            if value[0].isupper() == True:
+                                new_line.append([random_ent, pos])
+                            else:
+                                new_line.append([value, pos])
         #new_line = ' '.join(new_line)
         #print(new_line)
         new_limerick.append(new_line)
@@ -171,7 +178,7 @@ def fix_rhyme_scheme(new_limerick, wiki_text):
     # print("New Word4:", word4)
     new_limerick[3][-1][0] = word4
     # fix rhyme scheme for line 5
-    new_limerick[4][-1][0] = word1
+    # new_limerick[4][-1][0] = word1
     return new_limerick
 
 

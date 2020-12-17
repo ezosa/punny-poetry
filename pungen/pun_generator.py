@@ -10,8 +10,8 @@ lemmatizer = WordNetLemmatizer()  # used to lemmatize words.
 
 with open('pungen/foods.txt', 'r') as f:
     food_pun_words = f.readlines()
-with open('pungen/world-cities.txt', 'r') as f:
-    cities_pun_words = f.readlines()
+# with open('pungen/world-cities.txt', 'r') as f:
+#     cities_pun_words = f.readlines()
 with open('pungen/adj.txt', 'r') as f:
     adj_pun_words = f.readlines()
     adj_pun_words = [w.strip() for w in adj_pun_words]
@@ -26,7 +26,7 @@ def make_punny(text, distance, theme='food'):
 
     pun_words = []
 
-    for index, sent in enumerate(text):
+    for index, sent in enumerate(text[:3]):
         word = choose_first_eligible_word(sent)
         if word:
             pronounced_word = pronounce(word[0])
