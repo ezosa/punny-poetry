@@ -7,6 +7,7 @@ import editdistance
 from nltk.corpus import cmudict
 import string
 import numpy as np
+from scipy.spatial import distance
 
 exclude = list(string.punctuation)
 arpabet = cmudict.dict()
@@ -200,7 +201,8 @@ def count_replaced_words(limerick1, limerick2):
 
 
 def check_rhyme_scheme(limerick, rhyme_dist=2):
-    rhyme_scheme = ''
+    perfect_rhyme = ['A', 'A', 'B', 'B', 'A']
+    current_rhyme = []
     word1 = limerick[0][-1][0]
     word1 = clean_word(word1)
     word2 = limerick[1][-1][0]
@@ -209,26 +211,27 @@ def check_rhyme_scheme(limerick, rhyme_dist=2):
     #print("Word2:", word2)
     dist = pronounce_dist(word1, word2)
     if dist <= rhyme_dist:
-        rhyme_scheme += 'AA'
+        current_rhyme.extend(['A', 'A'])
     else:
-        rhyme_scheme += 'A-'
+        current_rhyme.extend(['A', '-'])
     word3 = limerick[2][-1][0]
     word3 = clean_word(word3)
     word4 = limerick[3][-1][0]
     word4 = clean_word(word4)
     dist = pronounce_dist(word3, word4)
     if dist <= rhyme_dist:
-        rhyme_scheme += 'BB'
+        current_rhyme.extend(['B', 'B'])
     else:
-        rhyme_scheme += 'B-'
+        current_rhyme.extend(['B', '-'])
     word5 = limerick[4][-1][0]
     word5 = clean_word(word5)
     #print("Word5:", word5)
     dist = pronounce_dist(word5, word1)
     #print("Dist 1-5:", dist)
     if dist <= rhyme_dist:
-        rhyme_scheme += 'A'
+        current_rhyme.append('A')
     else:
-        rhyme_scheme += '-'
-    return rhyme_scheme
+        current_rhyme.append('-')
+    scheme_dist = distance.hamming(perfect_rhyme, current_rhyme)
+    return current_rhyme, scheme_dist
 

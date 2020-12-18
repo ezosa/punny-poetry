@@ -39,5 +39,6 @@ prop_words = count_replaced_words(template, new_limerick3)
 print("\nProportion of replaced tokens:", prop_words)
 
 # check rhyme scheme of final limerick
-rhyme_scheme = check_rhyme_scheme(new_limerick3)
-print("Rhyme scheme of limerick:", rhyme_scheme)
+rhyme_scheme, dist = check_rhyme_scheme(new_limerick3)
+print("Rhyme scheme of limerick:", ''.join(rhyme_scheme))
+print("Distance from AABBA:", dist)
